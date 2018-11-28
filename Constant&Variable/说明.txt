@@ -1,0 +1,1 @@
+介绍了tensorflow的常量和变量

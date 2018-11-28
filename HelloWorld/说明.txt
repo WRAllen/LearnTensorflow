@@ -9,3 +9,5 @@ tf.Tensor(b'Hello, world!(no need session)', shape=(), dtype=string)
 所以大可把上面那个申明当做是python里面对对象的实例化
 可以把整个tensorflow当做是一个对象（或者类）
 这些申明方式都是这个对象（类）所定义好的（写死的）
+
+PS:为了避免写重复的例子，以后的例子都用Session的这种方式
