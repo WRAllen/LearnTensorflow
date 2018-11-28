@@ -1,0 +1,11 @@
+这两个文件都是最最简单的例子
+进入虚拟环境后直接运行就可看到效果
+
+因为用惯了python，在例子里面看到变量是常量的申明方式有点不习惯
+a=tf.constant("xxx") 因为之前都是直接　a = "xxx"
+但是这个常量和python的变量是有区别的
+把注释去了就会多一个输出
+tf.Tensor(b'Hello, world!(no need session)', shape=(), dtype=string)
+所以大可把上面那个申明当做是python里面对对象的实例化
+可以把整个tensorflow当做是一个对象（或者类）
+这些申明方式都是这个对象（类）所定义好的（写死的）
