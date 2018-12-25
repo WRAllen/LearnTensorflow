@@ -23,6 +23,7 @@ y = tf.matmul(a, w2)
 #通过sigmoid函数将y转化成0~1之内的数值，y代表正样本的数据，1-y代表负样本
 y = tf.sigmoid(y)
 #定义损失函数
+#cross_entropy代表了交叉熵（英文翻译）y_代表正确结果，y代表预测结果
 cross_entropy = -tf.reduce_mean(y_*tf.log(tf.clip_by_value(y, 1e-10, 1.0))+(1-y)*tf.log(tf.clip_by_value(1-y, 1e-10, 1.0)))
 #定义学习速率
 learning_rate = 0.001
