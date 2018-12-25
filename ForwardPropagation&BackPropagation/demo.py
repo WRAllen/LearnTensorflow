@@ -24,6 +24,7 @@ y = tf.matmul(a, w2)
 y = tf.sigmoid(y)
 #定义损失函数
 #cross_entropy代表了交叉熵（英文翻译）y_代表正确结果，y代表预测结果
+#tf.clip_by_value是一个取值范围限制函数1e-10,1.0代表最小和最大取值
 cross_entropy = -tf.reduce_mean(y_*tf.log(tf.clip_by_value(y, 1e-10, 1.0))+(1-y)*tf.log(tf.clip_by_value(1-y, 1e-10, 1.0)))
 #定义学习速率
 learning_rate = 0.001
