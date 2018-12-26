@@ -10,7 +10,7 @@ from numpy.random import RandomState
 batch_size = 8
 #两个输入
 x = tf.placeholder(tf.float32, shape=(None, 2), name="X_input")
-# 一个输出(为预测值)
+
 y_ = tf.placeholder(tf.float32, shape=(None, 1), name="Y_input")
 
 #只做简单的加权和
@@ -22,8 +22,27 @@ loss_less = 10
 loss_more = 1
 
 #定义损失函数
-loss = tf.reduce_sum(tf.where(tf.greater(y, y_), (y-y_)*loss_more, (y_-y)*loss_less)
+loss = tf.reduce_sum(tf.where(tf.greater(y, y_), (y-y_)*loss_more, (y_-y)*loss_less))
 #tf.where(x,y1,y2):如果x为true则运行y1,如果x为false则运行y2
 #tf.greater(x, y):输入的x,y是两个张量，会比较这两个张量每一个元素的大小，返回比较结果
+
+train_step = tf.train.AdamOptimizer(0.001).minimize(loss)
+#生成一个模拟数据集
+rdm = RandomState(1)
+dataset_size = 128
+X = rdm.rand(dataset_size, 2)
+Y = [[x1 + x2 +rdm.rand()/10.0 -0.05] for (x1, x2) in X]
+
+#开始训练
+with tf.Session() as sess:
+	init = tf.global_variables_initializer()
+	sess.run(init)
+	STEP = 5000
+	for i in range(STEP):
+		start = (i*batch_size)%dataset_size
+		end = min(start+batch_size, dataset_size)
+		sess.run(train_step, feed_dict={x:X[start:end], y_:Y[start:end]})
+		print(sess.run(w1))
+
 
 
