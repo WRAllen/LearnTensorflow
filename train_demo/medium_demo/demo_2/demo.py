@@ -12,6 +12,7 @@ b = tf.Variable(tf.zeros([10]))
 #ｙ为预测的值(书本定义)
 y = tf.nn.softmax(tf.matmul(x, w) + b)
 #y_为实际的值
+#之前一直搞不懂y和y_，现在清楚了，真正的真实值是没有计算方式的，而是直接输入的。所以y是真实值
 y_ = tf.placeholder(tf.float32, [None, 10])
 #tf.reduce_mean是对结果求平均值,reduce_sum是对结果求和,reduction_indices不知道用来干嘛
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
@@ -21,7 +22,7 @@ tf.global_variables_initializer().run()
 for i in range(1000):
 	batch_xs, batch_ys = mnist.train.next_batch(100)
 	train_step.run({x: batch_xs, y_: batch_ys})
-	
+
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(accuracy.eval({x:mnist.test.images, y_:mnist.test.labels}))
