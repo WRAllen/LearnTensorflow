@@ -4,6 +4,7 @@ import tensorflow as tf
 mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
 sess = tf.InteractiveSession()
 
+#定义神经网络-start
 #创建权重的随机噪点
 def weight_variable(shape, name):
   initial = tf.truncated_normal(shape, stddev=0.1)
@@ -45,14 +46,12 @@ h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 W_fc2 = weight_variable([1024, 10], 'W_fc2')
 b_fc2 = bias_variable([10], 'b_fc2')
 y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+#定义神经网络-end
 
-cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
-train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-
+#判断差别即可
 correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-tf.global_variables_initializer().run()
-
+#读取之前保存的训练模型
 saver = tf.train.Saver()
 saver.restore(sess, "my_net/net.ckpt")
 
