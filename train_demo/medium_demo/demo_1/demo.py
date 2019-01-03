@@ -2,7 +2,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-mnist = input_data.read_data_sets("path/to/MNIST_data/", one_hot=True)
+mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
 #定义输入(28*28=784)和输出层(一个一维长度为10的数组，里面只有0,1代表是数字几)
 INPUT_NODE = 784
 OUTPUT_NODE = 10
