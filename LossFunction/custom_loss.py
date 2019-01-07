@@ -8,6 +8,7 @@ import tensorflow as tf
 from numpy.random import RandomState
 
 batch_size = 8
+SEED = 1
 #两个输入
 x = tf.placeholder(tf.float32, shape=(None, 2), name="X_input")
 
@@ -28,7 +29,7 @@ loss = tf.reduce_sum(tf.where(tf.greater(y, y_), (y-y_)*loss_more, (y_-y)*loss_l
 
 train_step = tf.train.AdamOptimizer(0.001).minimize(loss)
 #生成一个模拟数据集
-rdm = RandomState(1)
+rdm = RandomState(SEED)
 dataset_size = 128
 X = rdm.rand(dataset_size, 2)
 Y = [[x1 + x2 +rdm.rand()/10.0 -0.05] for (x1, x2) in X]
