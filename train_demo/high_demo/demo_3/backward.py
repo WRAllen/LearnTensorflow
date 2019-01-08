@@ -43,6 +43,10 @@ def backward(mnist):
 	with tf.Session() as sess:
 		init_op = tf.global_variables_initializer()
 		sess.run(init_op)
+		#增加断点续训的功能
+		ckpt = tf.train.get_checkpoint_state(MODEL_SAVE_PATH)
+		if ckpt and ckpt.model_checkpoint_path:
+			saver.restore(sess, ckpt.model_checkpoint_path)
 
 		for i in range(STEPS):
 			xs, ys = mnist.train.next_batch(BATCH_SIZE)
