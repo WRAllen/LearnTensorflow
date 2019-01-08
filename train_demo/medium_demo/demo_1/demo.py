@@ -26,7 +26,7 @@ def inference(input_tensor, avg_class, weight1, biases1, weight2, biases2):
 
 def train(mnist):
 	x = tf.placeholder(tf.float32, [None, INPUT_NODE], name="x-input")
-	y_ = tf.placehoder(tf.float32, [None, OUTPUT_NODE], name="y-input")
+	y_ = tf.placeholder(tf.float32, [None, OUTPUT_NODE], name="y-input")
 	#隐藏层
 	weight1 = tf.Variable(tf.truncated_normal([INPUT_NODE, LAYER1_NODE], stddev=0.1))
 	biases1 = tf.Variable(tf.constant(0.1, shape=[LAYER1_NODE]))
