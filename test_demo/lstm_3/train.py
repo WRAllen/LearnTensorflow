@@ -78,7 +78,7 @@ def train_lstm():
     #损失函数(包涵正则化)
     loss = tf.reduce_mean(tf.square(tf.reshape(pred,[-1])-tf.reshape(Y, [-1]))) + tf.add_n(tf.get_collection('losses'))
 
-    #方向传播函数，这里不加global_step=global_step，在保存时就不会有断点续训
+    #反方向传播函数，这里不加global_step=global_step，在保存时就不会有断点续训
     # train_step = tf.train.AdamOptimizer(lr).minimize(loss)
     train_step = tf.train.GradientDescentOptimizer(lr).minimize(loss, global_step=global_step)
     #定义滑动平均
