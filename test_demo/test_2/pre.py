@@ -1,6 +1,7 @@
 #conding:utf-8
 import tensorflow as tf
 import pandas as pd
+import numpy as np
 import os
 from matplotlib import style
 import matplotlib.pyplot as plt
@@ -47,7 +48,7 @@ def pre_full(datas):
 
 
         # accuracy_score = sess.run(accuracy, feed_dict={X:datas.values[90:100,2:].tolist(), Y:datas.values[90:100,1].reshape([10,1])})
-        accuracy_score = sess.run(accuracy, feed_dict={X:datas.values[:90,2:].tolist(), Y:datas.values[:90,1].reshape([90,1])})
+        accuracy_score = sess.run(accuracy, feed_dict={X:datas[:90,1:].tolist(), Y:datas[:90,0].reshape([90,1])})
         print("测试数据的准确度:%f"%(accuracy_score))
 
         '''设置绘图风格'''
@@ -55,21 +56,23 @@ def pre_full(datas):
         #以折线图表示结果
         plt.figure()
         # 正常的训练数据
-        base_x_lable = list(range(len(datas.values[:90,1])))
-        total_x_lable = list(range(len(datas.values[:90,1]), len(datas.values[:90,1])+len(datas.values[90:100,1])))
-        plt.plot(base_x_lable, datas.values[:90,1], label='train', color='r')
+        base_x_lable = list(range(len(datas[:90,0])))
+        total_x_lable = list(range(len(datas[:90,0]), len(datas[:90,0])+len(datas[90:100,0])))
+        plt.plot(base_x_lable, datas[:90,0], label='train', color='r')
         #真实值
         # plt.plot(total_x_lable, datas.values[80:100,1], label='realy', color='b')
         #测试训练数据
-        plt.plot(base_x_lable, sess.run(layer_out, feed_dict={X:datas.values[:90,2:].tolist(), Y:datas.values[:90,1].reshape([90,1])}), label='pre', color='g')
+        plt.plot(base_x_lable, sess.run(layer_out, feed_dict={X:datas[:90,1:].tolist(), Y:datas[:90,0].reshape([90,1])}), label='pre', color='g')
         #预测值
         # plt.plot(total_x_lable, sess.run(layer_out, feed_dict={X:datas.values[80:100,2:].tolist(), Y:datas.values[80:100,1].reshape([20,1])}), label='pre', color='g')
         plt.show()
 
+#标准化数据
+def format_data(datas, standard=None):
+    datas = datas.iloc[:,1:4].values   #取第2-4列数据
+    return (datas-np.mean(datas))/np.std(datas) if standard else datas
 
-
-
-datas = pd.read_csv("data.csv")
+datas = format_data(pd.read_csv("data.csv"), True)
 print("开始预测 ")
 pre_full(datas)
 print("预测结束")

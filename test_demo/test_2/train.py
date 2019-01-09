@@ -1,6 +1,7 @@
 #conding:utf-8
 import tensorflow as tf
 import pandas as pd
+import numpy as np
 import os
 #超参数
 INPUT_NODE = 2
@@ -11,11 +12,11 @@ BATCH_SIZE = 10
 train_row = 90
 test_row = 10
 #最初学习率
-LEARNING_RATE_BASE = 0.001
+LEARNING_RATE_BASE = 0.1
 #学习衰减率
 LEARNING_RATE_DECAY = 0.99
 #喂入多少轮BATCH_SIZE后更新一次学习率，一般为:样本总数/BATCH_SIZE
-LEARNING_RATE_STEP = 1
+LEARNING_RATE_STEP = 9
 #定义计数器
 global_step = tf.Variable(0, trainable=False)
 #定义指数衰减学习率
@@ -74,16 +75,19 @@ def train_full(datas):
 
         for i in range(STEPS):
             for step in range(train_row-BATCH_SIZE):
-               _, loss_value = sess.run([train_op, loss], feed_dict={X:datas.values[step:step+BATCH_SIZE,2:].tolist(), Y:datas.values[step:step+BATCH_SIZE,1].reshape([10,1])}) 
+               _, loss_value = sess.run([train_op, loss], feed_dict={X:datas[step:step+BATCH_SIZE,1:].tolist(), Y:datas[step:step+BATCH_SIZE,0].reshape([10,1])}) 
             if i % 500 == 0:
                  print("经过%d轮训练，loss是：%f"%(i, loss_value))
                  saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
 
+#标准化数据
+def format_data(datas, standard=None):
+    datas = datas.iloc[:,1:4].values   #取第2-4列数据
+    return (datas-np.mean(datas))/np.std(datas) if standard else datas
 
 
-
-
-datas = pd.read_csv("data.csv")
+datas = format_data(pd.read_csv("data.csv"), True)
+# print(datas)
 print("开始训练")
 train_full(datas)
 print("训练结束")
