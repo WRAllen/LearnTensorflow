@@ -8,20 +8,19 @@ import matplotlib.pyplot as plt
 INPUT_NODE = 2
 OUTPUT_NODE = 1
 LAYER_NODE = 10
-learning_rate = 0.001
-STEPS = 20000
 BATCH_SIZE = 10
-train_row = 80
+train_row = 90
 test_row = 10
 
 MODEL_SAVE_PATH = './my_net'
 MODEL_NAME = 'test_model'
-
+#定义计数器
+global_step = tf.Variable(0, trainable=False)
 
 
 def pre_full(datas):
-    X = tf.placeholder(tf.float32, [None, INPUT_NODE], name="x-input")
-    Y = tf.placeholder(tf.float32, [None, OUTPUT_NODE], name="y-input")
+    X = tf.placeholder(tf.float32, [None, INPUT_NODE])
+    Y = tf.placeholder(tf.float32, [None, OUTPUT_NODE])
 
     #隐藏层
     weight1 = tf.Variable(tf.truncated_normal([INPUT_NODE, LAYER_NODE], stddev=0.1))
@@ -32,8 +31,6 @@ def pre_full(datas):
 
     layer_int = tf.nn.relu(tf.matmul(X, weight1) + biases1)
     layer_out = tf.matmul(layer_int, weight2) + biases2
-
-
 
     saver = tf.train.Saver()
 

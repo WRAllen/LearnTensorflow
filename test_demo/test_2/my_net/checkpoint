@@ -1,0 +1,4 @@
+model_checkpoint_path: "test_model-80080"
+all_model_checkpoint_paths: "test_model-80"
+all_model_checkpoint_paths: "test_model-40080"
+all_model_checkpoint_paths: "test_model-80080"
