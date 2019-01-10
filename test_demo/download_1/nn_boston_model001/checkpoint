@@ -1,0 +1,2 @@
+model_checkpoint_path: "nn_boston.model-160000"
+all_model_checkpoint_paths: "nn_boston.model-160000"
