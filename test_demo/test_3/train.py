@@ -9,11 +9,11 @@ INPUT_NODE = 2
 OUTPUT_NODE = 1
 LAYER_NODE = 10
 STEPS = 1500
-BATCH_SIZE = 10
+BATCH_SIZE = 5
 train_row = 90
 test_row = 10
 #最初学习率
-LEARNING_RATE_BASE = 0.1
+LEARNING_RATE_BASE = 0.01
 #学习衰减率
 LEARNING_RATE_DECAY = 0.99
 #喂入多少轮BATCH_SIZE后更新一次学习率，一般为:样本总数/BATCH_SIZE
@@ -51,7 +51,7 @@ def train_full(datas):
     ## 丢弃样本比例，1是所有的样本使用，这个好像是自动回丢弃不靠谱的样本
     keep_prob_s = tf.placeholder(dtype=tf.float32, name="keep_prob_s")
 
-    layer_int = tf.nn.sigmoid(tf.matmul(X, weight1) + biases1)
+    layer_int = tf.nn.relu(tf.matmul(X, weight1) + biases1)
     #隐藏层到输出层丢弃不靠谱数据
     layer_int = tf.nn.dropout(layer_int, keep_prob=keep_prob_s)  
     layer_out = tf.add(tf.matmul(layer_int, weight2),biases2, name="layer_out")
@@ -83,7 +83,7 @@ def train_full(datas):
 
         for i in range(STEPS):
             for step in range(train_row-BATCH_SIZE):
-               _, loss_value = sess.run([train_op, loss], feed_dict={X:datas[step:step+BATCH_SIZE,1:].tolist(), Y:datas[step:step+BATCH_SIZE,0].reshape([10,1]), keep_prob_s: 1}) 
+               _, loss_value = sess.run([train_op, loss], feed_dict={X:datas[step:step+BATCH_SIZE,1:].tolist(), Y:datas[step:step+BATCH_SIZE,0].reshape([BATCH_SIZE,1]), keep_prob_s: 1}) 
             if i % 10 == 0:
                 print("loss是：%f"%(loss_value))
             if i % 500 == 0:
