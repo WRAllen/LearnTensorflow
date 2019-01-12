@@ -25,10 +25,10 @@ def pre_full(datas):
 
     #隐藏层
     weight1 = tf.Variable(tf.truncated_normal([INPUT_NODE, LAYER_NODE], stddev=0.1))
-    biases1 = tf.Variable(tf.constant(0.1, shape=[LAYER_NODE]))
+    biases1 = tf.Variable(tf.constant(0.1, shape=[1, LAYER_NODE]))
     #输出层
     weight2 = tf.Variable(tf.truncated_normal([LAYER_NODE, OUTPUT_NODE], stddev=0.1))
-    biases2 = tf.Variable(tf.constant(0.1, shape=[OUTPUT_NODE]))
+    biases2 = tf.Variable(tf.constant(0.1, shape=[1, OUTPUT_NODE]))
 
     layer_int = tf.nn.sigmoid(tf.matmul(X, weight1) + biases1)
     layer_out = tf.matmul(layer_int, weight2) + biases2

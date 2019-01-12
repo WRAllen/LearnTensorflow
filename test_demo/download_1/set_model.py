@@ -76,14 +76,6 @@ loss = tf.reduce_mean(tf.reduce_sum(tf.square(y_true - prediction), reduction_in
 ## 训练的operator，AdamOptimizer反正说是最好的训练器, 训练速率0.01
 train_op = tf.train.AdamOptimizer(learning_rate).minimize(loss, global_step=global_step)
 
-#### draw pics  这里画了一个坐标图
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)           # 第一个块里画
-ax.plot(range(89), y_train[0:89], 'b')  # 先画出样本前50个数据的真实结果
-ax.set_ylim([0, 6])                    # 设置纵轴的范围
-plt.ion()                               # 打开交互模式，不打开不能在训练的过程中画图
-plt.show()                              # 展示图片，现在是只有50个真实数据连成的1条线
-
 
 # 开始执行
 with tf.Session() as sess:

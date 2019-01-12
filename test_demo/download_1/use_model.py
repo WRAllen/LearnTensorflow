@@ -11,7 +11,7 @@ tezheng2 = train_data[:100, [0, 2]]
 sale = train_data[:100,1]
 X = Normalizer().fit_transform(tezheng2)
 y_pred_1 = sale.reshape((-1,1))
-print(y_pred_1)
+# print(y_pred_1)
 
 sale_1 = train_data[:100,1]
 y_train = sale_1.reshape((-1,1)) 
@@ -33,13 +33,14 @@ with tf.Session() as sess:
     # 开始预测, 还是不用输入y , 丢弃我一直写的1，不丢弃
     feed_dict = {inputX: X, keep_prob_s: 1}
     y_pred = sess.run(prediction, feed_dict=feed_dict)
+    print("开始画图")
     #### draw pics  这里画了一个坐标图
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)           # 第一个块里画
     ax.plot(range(100), y_train[0:100], 'b')  # 先画出样本前50个数据的真实结果
     ax.plot(range(100), y_pred, 'r')
     ax.set_ylim([0, 6])                    # 设置纵轴的范围
-    plt.ion()                               # 打开交互模式，不打开不能在训练的过程中画图
+    # plt.ion()                               # 打开交互模式，不打开不能在训练的过程中画图
     plt.show()
 #    #计算准确率
 #    print(y_pred, y_pred_1)
